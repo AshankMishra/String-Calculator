@@ -9,8 +9,8 @@ public class TestCalculator {
 	@Test
 	public void addString() {
 		Calculator calculator = new Calculator();
-		String numbersToBeAdded = "1"; // Single Number
+		String numbersToBeAdded = "1,2,56"; // Multiple numebrs to be added
 		int sum = calculator.Add(numbersToBeAdded);
-		Assert.assertEquals(1, sum);
+		Assert.assertEquals(59, sum);
 	}
 }
