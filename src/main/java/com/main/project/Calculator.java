@@ -3,7 +3,8 @@ package com.main.project;
 public class Calculator {
 	public int Add(String numbers) {
 		if (numbers != null && !numbers.equals("")) {
-			String[] numbersArray = numbers.split(",");
+			String commaSeparatedString = numbers.replaceAll("\\n", ","); // This will replace new line with delimiter
+			String[] numbersArray = commaSeparatedString.split(","); // Split the String and convert it into array
 			int sum = addNumbers(numbersArray);
 			return sum;
 		} else {
