@@ -10,10 +10,14 @@ public class Calculator {
 		if (numbers != null && !numbers.equals("")) {
 			Map<String, Object> stringAndDelimiter = getStringAndDelimiter(numbers);
 			if (stringAndDelimiter != null && stringAndDelimiter.get("number") != null) {
-				String commaSeparatedString = stringAndDelimiter.get("number").toString().replaceAll("\\n",
+				String delimiterSeparatedString = stringAndDelimiter.get("number").toString().replaceAll("\\n",
 						stringAndDelimiter.get("delimiter").toString());
 				// This will replace new line with delimiter
-				String[] numbersArray = commaSeparatedString.split(stringAndDelimiter.get("delimiter").toString());
+				String commaSeparatedString = delimiterSeparatedString
+						.replace(stringAndDelimiter.get("delimiter").toString(), ",");
+				// This will replace delimiter to comma thus eliminating the problem of dangling
+				// pointers
+				String[] numbersArray = commaSeparatedString.split(",");
 				// Split the String and convert it into array
 				int sum = addNumbers(numbersArray);
 				return sum;
@@ -31,10 +35,19 @@ public class Calculator {
 			Map<String, Object> mapStringAndDelimiter = new HashMap<String, Object>();
 			String possibleDelimiterIndicator = numbers.substring(0, 2);
 			if (possibleDelimiterIndicator.equals("//")) {
-				String delimiter = numbers.substring(2, 3);
-				String number = numbers.substring(3);
-				mapStringAndDelimiter.put("delimiter", delimiter);
-				mapStringAndDelimiter.put("number", number);
+				if (numbers.substring(0, 3).equals("//[")) {
+					int firstIndexOfDelimiter = numbers.indexOf("[");
+					int lastIndexOfDelimiter = numbers.indexOf("]");
+					String delimiter = numbers.substring(firstIndexOfDelimiter + 1, lastIndexOfDelimiter);
+					String number = numbers.substring(lastIndexOfDelimiter + 1);
+					mapStringAndDelimiter.put("delimiter", delimiter);
+					mapStringAndDelimiter.put("number", number);
+				} else {
+					String delimiter = numbers.substring(2, 3);
+					String number = numbers.substring(3);
+					mapStringAndDelimiter.put("delimiter", delimiter);
+					mapStringAndDelimiter.put("number", number);
+				}
 			} else {
 				mapStringAndDelimiter.put("delimiter", ",");
 				mapStringAndDelimiter.put("number", numbers);

@@ -46,4 +46,11 @@ public class TestCalculator {
 		int sum = calculator.Add(stringWithNumbersGreaterThan100);
 		assertEquals(10, sum);
 	}
+
+	@Test
+	public void testForDelimitersOfLengthGreaterThan1() {
+		String stringWithDelimitersOfLengthGreaterThan1 = "//[***]\n1***2***3";
+		int sum = calculator.Add(stringWithDelimitersOfLengthGreaterThan1);
+		assertEquals(6, sum);
+	}
 }
