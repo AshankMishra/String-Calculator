@@ -21,14 +21,14 @@ public class TestCalculator {
 	@Test
 	public void addString() {
 		String numbersToBeAdded = "4\n2,56"; // Multiple numbers to be added
-		int sum = (int) calculator.Add(numbersToBeAdded);
+		int sum = calculator.Add(numbersToBeAdded);
 		Assert.assertEquals(62, sum);
 	}
 
 	@Test
 	public void addMultipleNumbersInStringWithDifferentDelimiters() {
 		String numbersWithDelimiters = "//;\n1;2;5\n4"; // String of numbers with varying delimiters
-		int sum = (int) calculator.Add(numbersWithDelimiters);
+		int sum = calculator.Add(numbersWithDelimiters);
 		Assert.assertEquals(12, sum);
 	}
 
@@ -38,5 +38,12 @@ public class TestCalculator {
 		assertThrows(NegativesNotAllowedException.class, () -> {
 			calculator.Add(stringWithNegativeNumber);
 		});
+	}
+
+	@Test
+	public void testForIntegersGreaterThan1000() {
+		String stringWithNumbersGreaterThan100 = "//;\n1;1010;5\n4";
+		int sum = calculator.Add(stringWithNumbersGreaterThan100);
+		assertEquals(10, sum);
 	}
 }

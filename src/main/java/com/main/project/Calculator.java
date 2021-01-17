@@ -54,7 +54,9 @@ public class Calculator {
 				if (Integer.parseInt(number) < 0) {
 					negativeNumbers.add(number);
 				} else {
-					sum += Integer.parseInt(number);
+					if (Integer.parseInt(number) <= 1000) { // Only integers greater than 1000 to be added
+						sum += Integer.parseInt(number);
+					}
 				}
 			}
 		}
