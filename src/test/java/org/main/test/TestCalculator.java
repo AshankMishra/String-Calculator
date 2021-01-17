@@ -53,4 +53,11 @@ public class TestCalculator {
 		int sum = calculator.Add(stringWithDelimitersOfLengthGreaterThan1);
 		assertEquals(6, sum);
 	}
+
+	@Test
+	public void testForMultipleDelimiters() {
+		String multipleDelimitersString = "//[*][%]\n1*2%3";
+		int sum = calculator.Add(multipleDelimitersString);
+		assertEquals(6, sum);
+	}
 }

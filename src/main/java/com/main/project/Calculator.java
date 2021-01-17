@@ -10,11 +10,19 @@ public class Calculator {
 		if (numbers != null && !numbers.equals("")) {
 			Map<String, Object> stringAndDelimiter = getStringAndDelimiter(numbers);
 			if (stringAndDelimiter != null && stringAndDelimiter.get("number") != null) {
-				String delimiterSeparatedString = stringAndDelimiter.get("number").toString().replaceAll("\\n",
-						stringAndDelimiter.get("delimiter").toString());
-				// This will replace new line with delimiter
-				String commaSeparatedString = delimiterSeparatedString
-						.replace(stringAndDelimiter.get("delimiter").toString(), ",");
+				String delimiterSeparatedString = stringAndDelimiter.get("number").toString().replaceAll("\\n", ",");
+				// This will replace new line with comma
+				String commaSeparatedString = null;
+				List<String> delimiterList = (List<String>) stringAndDelimiter.get("delimiter");
+				for (int i = 0; i < delimiterList.size(); i++) {
+					if (i == 0) {
+						commaSeparatedString = delimiterSeparatedString.replace(delimiterList.get(i), ",");
+					} else {
+						commaSeparatedString = commaSeparatedString.replace(delimiterList.get(i), ",");
+					}
+				}
+//				commaSeparatedString = delimiterSeparatedString
+//						.replace(stringAndDelimiter.get("delimiter").toString(), ",");
 				// This will replace delimiter to comma thus eliminating the problem of dangling
 				// pointers
 				String[] numbersArray = commaSeparatedString.split(",");
@@ -36,20 +44,34 @@ public class Calculator {
 			String possibleDelimiterIndicator = numbers.substring(0, 2);
 			if (possibleDelimiterIndicator.equals("//")) {
 				if (numbers.substring(0, 3).equals("//[")) {
-					int firstIndexOfDelimiter = numbers.indexOf("[");
-					int lastIndexOfDelimiter = numbers.indexOf("]");
-					String delimiter = numbers.substring(firstIndexOfDelimiter + 1, lastIndexOfDelimiter);
+					int lastIndexOfDelimiter = 0;
+					List<String> delimiterList = new ArrayList<>();
+					for (int i = 0; i < numbers.length(); i++) {
+						if (numbers.charAt(i) == '[') {
+							for (int j = i + 1; j < (numbers.length() - i + 1); j++) {
+								if (numbers.charAt(j) == ']') {
+									delimiterList.add(numbers.substring(i + 1, j));
+									lastIndexOfDelimiter = j;
+									j = numbers.length() - i + 1;
+								}
+							}
+						}
+					}
 					String number = numbers.substring(lastIndexOfDelimiter + 1);
-					mapStringAndDelimiter.put("delimiter", delimiter);
+					mapStringAndDelimiter.put("delimiter", delimiterList);
 					mapStringAndDelimiter.put("number", number);
 				} else {
 					String delimiter = numbers.substring(2, 3);
+					List<String> delimterList = new ArrayList<>();
+					delimterList.add(delimiter);
 					String number = numbers.substring(3);
-					mapStringAndDelimiter.put("delimiter", delimiter);
+					mapStringAndDelimiter.put("delimiter", delimterList);
 					mapStringAndDelimiter.put("number", number);
 				}
 			} else {
-				mapStringAndDelimiter.put("delimiter", ",");
+				List<String> delimterList = new ArrayList<>();
+				delimterList.add(",");
+				mapStringAndDelimiter.put("delimiter", delimterList);
 				mapStringAndDelimiter.put("number", numbers);
 			}
 			return mapStringAndDelimiter;
