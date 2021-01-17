@@ -60,4 +60,11 @@ public class TestCalculator {
 		int sum = calculator.Add(multipleDelimitersString);
 		assertEquals(6, sum);
 	}
+
+	@Test
+	public void testForMultipleDelimitersOfVariableLength() {
+		String multipleDelimitersOfVariableLengthString = "//[***][%%]\n8***4%%3";
+		int sum = calculator.Add(multipleDelimitersOfVariableLengthString);
+		assertEquals(15, sum);
+	}
 }

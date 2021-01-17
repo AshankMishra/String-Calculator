@@ -21,8 +21,6 @@ public class Calculator {
 						commaSeparatedString = commaSeparatedString.replace(delimiterList.get(i), ",");
 					}
 				}
-//				commaSeparatedString = delimiterSeparatedString
-//						.replace(stringAndDelimiter.get("delimiter").toString(), ",");
 				// This will replace delimiter to comma thus eliminating the problem of dangling
 				// pointers
 				String[] numbersArray = commaSeparatedString.split(",");
