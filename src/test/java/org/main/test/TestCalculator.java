@@ -1,10 +1,14 @@
 package org.main.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.main.project.Calculator;
+import com.main.project.NegativesNotAllowedException;
 
 public class TestCalculator {
 	private Calculator calculator;
@@ -17,14 +21,22 @@ public class TestCalculator {
 	@Test
 	public void addString() {
 		String numbersToBeAdded = "4\n2,56"; // Multiple numbers to be added
-		int sum = calculator.Add(numbersToBeAdded);
+		int sum = (int) calculator.Add(numbersToBeAdded);
 		Assert.assertEquals(62, sum);
 	}
 
 	@Test
 	public void addMultipleNumbersInStringWithDifferentDelimiters() {
 		String numbersWithDelimiters = "//;\n1;2;5\n4"; // String of numbers with varying delimiters
-		int sum = calculator.Add(numbersWithDelimiters);
+		int sum = (int) calculator.Add(numbersWithDelimiters);
 		Assert.assertEquals(12, sum);
+	}
+
+	@Test
+	public void testForNegativeNumbers() {
+		String stringWithNegativeNumber = "//;\n1;-2;5\n4";
+		assertThrows(NegativesNotAllowedException.class, () -> {
+			calculator.Add(stringWithNegativeNumber);
+		});
 	}
 }

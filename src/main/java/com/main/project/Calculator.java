@@ -1,6 +1,8 @@
 package com.main.project;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Calculator {
@@ -46,10 +48,19 @@ public class Calculator {
 
 	private int addNumbers(String[] numbersArray) {
 		int sum = 0;
+		List<String> negativeNumbers = new ArrayList<String>();
 		for (String number : numbersArray) {
 			if (number != null && !number.equals("")) {
-				sum += Integer.parseInt(number);
+				if (Integer.parseInt(number) < 0) {
+					negativeNumbers.add(number);
+				} else {
+					sum += Integer.parseInt(number);
+				}
 			}
+		}
+		if (negativeNumbers != null && negativeNumbers.size() > 0) {
+			String message = String.join(",", negativeNumbers);
+			throw new NegativesNotAllowedException("Negatives not allowed" + message);
 		}
 		return sum;
 	}
